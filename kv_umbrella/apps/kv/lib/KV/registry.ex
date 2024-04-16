@@ -44,13 +44,12 @@ defmodule KV.Registry do
     case lookup(names, name) do
       {:ok, pid} ->
         {:reply, pid, {names, refs}}
-
       :error ->
         {:ok, pid} = DynamicSupervisor.start_child(KV.BucketSupervisor, KV.Bucket)
         ref = Process.monitor(pid)
         refs = Map.put(refs, ref, name)
         :ets.insert(names, {name, pid})
-        {:noreply, {names, refs}}
+        {:reply, pid,{names, refs}}
     end
   end
 

@@ -7,8 +7,9 @@ defmodule KVServer.Application do
 
   @impl true
   def start(_type, _args) do
+    port = String.to_integer(System.get_env("PORT") || "4040")
     children = [
-      {Task, fn -> KVServer.accept(4040) end}
+      {Task, fn -> KVServer.accept(port) end}
     ]
 
     opts = [strategy: :one_for_one, name: KVServer.Supervisor]

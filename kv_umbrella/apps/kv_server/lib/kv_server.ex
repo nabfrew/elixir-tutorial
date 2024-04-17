@@ -1,5 +1,6 @@
 defmodule KVServer do
   require Logger
+  require KV
 
   def accept(port) do
     {:ok, socket} =
@@ -19,8 +20,7 @@ defmodule KVServer do
   defp serve(socket) do
     socket
     |> read_line()
-    |> write_line(socket)
-
+    |>
     serve(socket)
   end
 
